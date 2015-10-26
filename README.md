@@ -201,8 +201,6 @@ color
 hoverColor
 holdColor
 
-drag (false)
-
 active(true)
 visible (true)
 
@@ -258,6 +256,28 @@ icon = {
 }
 ```
 
+Drag
+```lua
+drag = {
+  enabled (false)
+  
+  fixed = {
+    x
+    y
+  }
+  
+  bounds = {
+    { --top-left bound
+      x
+      y
+    }
+    { --bottom-right bound
+      x
+      y
+    }
+  }
+```
+
 Callbacks - Called on specific events
 ```lua
 onClick --button is clicked down
@@ -275,6 +295,47 @@ myStyle = uare.newStyle({
   onClick = function() print("click!") end
 })
 ```
+
+Dragging
+----------------
+
+Set *enabled* to true in the *drag* attribute to turn dragging on.
+
+From there, you have many different possibilities for you to set up your own draggable element.
+
+In case you'd like to make a simple slider, for example, just create a draggable element with a fixed movement axis and two bounds.
+
+You can then retrieve the value of your slider/element using element:getHorizontalRange() and element:getVerticalRange(), which return normalized numbers (between 0 and 1).
+
+Make sure you've properly set up bounds before calling these methods. Please not that you can also (re)define bounds later with element:setDragBounds(bounds).
+
+```lua
+uare.new({
+  x = 200,
+  y = 200,
+  center = true,
+  
+  drag = {
+    enabled = true,
+    
+    fixed = {
+      x = false,
+      y = true --movement is restricted on the vertical axis
+    },
+    
+    bounds = { --we just set horizontal bounds
+      {
+        x = 100
+      },
+      {
+        x = 300
+      }
+    }
+  }
+})
+```
+
+It's also possible to manually set the range for a specific element using element:setHorizontalRange(n) and element:setVerticalRange(n), where *n* is a number between 0 and 1.
 
 Anchors
 ----------------
@@ -356,6 +417,33 @@ Just like regular elements, *Groups* support some **methods** as well:
   - group:hide()
 - group:setIndex(), including
   - group:toFront()
+
+Positioning
+----------------
+
+As the default behaviour, elements' x and y coordinates represent their top-left corner.
+
+By giving the *center* attribute to an element, you can position it according to its center. No more additional math, hurray!
+
+```lua
+uare.new({
+  x = 50,
+  y = 75,
+  width = 100,
+  height = 50
+})
+
+uare.new({
+  x = 100,
+  y = 100,
+  width = 100,
+  height = 50,
+  
+  center = true
+})
+
+--these two elements will overlap
+```
 
 Removing elements
 ----------------

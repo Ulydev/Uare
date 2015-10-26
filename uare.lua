@@ -78,6 +78,8 @@ function uare.new(t, f)
   
   uareObj.active = f.active or true
   
+  uareObj.drag = f.drag or {enabled = false}
+  
   uareObj.visible, uareObj.vAlpha = f.visible or true, 1
   
   uareObj.type, uareObj.z = t, uare.z
@@ -110,11 +112,16 @@ function uare:updateSelf(dt, mx, my, e)
   
   local mlc = e ~= "s" and love.mouse.isDown("l") or false
   
-  local wb = e ~= "s" and withinBounds(mx, my, self.x, self.y, self.x+self.width, self.y+self.height) or false
+  local rwb = withinBounds(mx, my, self.x, self.y, self.x+self.width, self.y+self.height)
+  if self.center then
+    rwb = withinBounds(mx, my, self.x-self.width*.5, self.y-self.height*.5, self.x+self.width*.5, self.y+self.height*.5)
+  end
+  
+  local wb = e ~= "s" and rwb or false
   
   local thover, thold = self.hover, self.hold
   
-  self.hover = wb or (self.drag and uare.holdt and uare.holdt.obj == self)
+  self.hover = wb or (self.drag.enabled and uare.holdt and uare.holdt.obj == self)
   
   self.hold = ((e == "c" and wb) and true) or (mlc and self.hold) or ((wb and e ~= "r" and self.hold))
   
@@ -134,14 +141,25 @@ function uare:updateSelf(dt, mx, my, e)
     self.onReleaseHover()
   end
   
-  if self.hold and (not wb or self.drag) and not uare.holdt then
-    self.hold = self.drag uare.holdt = {obj = self, d = {x = self.x-mx, y = self.y-my}}
+  if self.hold and (not wb or self.drag.enabled) and not uare.holdt then
+    self.hold = self.drag.enabled uare.holdt = {obj = self, d = {x = self.x-mx, y = self.y-my}}
   elseif not self.hold and wb and (uare.holdt and uare.holdt.obj == self) then
     self.hold = true uare.holdt = nil
   end
   
-  if uare.holdt and uare.holdt.obj == self and self.drag then --drag
-    self.x, self.y = mx + uare.holdt.d.x, my + uare.holdt.d.y
+  if uare.holdt and uare.holdt.obj == self and self.drag.enabled then --drag
+    self.x = (not self.drag.fixed or not self.drag.fixed.x) and mx + uare.holdt.d.x or self.x
+    self.y = (not self.drag.fixed or not self.drag.fixed.y) and my + uare.holdt.d.y or self.y
+    if self.drag.bounds then
+      if self.drag.bounds[1] then
+        self.x = (self.drag.bounds[1].x and self.x < self.drag.bounds[1].x) and self.drag.bounds[1].x or self.x
+        self.y = (self.drag.bounds[1].y and self.y < self.drag.bounds[1].y) and self.drag.bounds[1].y or self.y
+      end
+      if self.drag.bounds[2] then
+        self.x = (self.drag.bounds[2].x and self.x > self.drag.bounds[2].x) and self.drag.bounds[2].x or self.x
+        self.y = (self.drag.bounds[2].y and self.y > self.drag.bounds[2].y) and self.drag.bounds[2].y or self.y
+      end
+    end
   end
   
   return wb
@@ -164,20 +182,23 @@ end
 
 function uare:drawSelf()
   
+  local tempX, tempY = self.x, self.y
+  if self.center then tempX, tempY = self.x-self.width*.5, self.y-self.height*.5 end
+  
   love.graphics.setColor(self:getAlphaColor(((self.hold and self.holdColor) and self.holdColor) or ((self.hover and self.hoverColor) and self.hoverColor) or self.color))
-  love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+  love.graphics.rectangle("fill", tempX, tempY, self.width, self.height)
   
   if self.border and self.border.color and self.border.size then
     love.graphics.setColor(self:getAlphaColor(((self.hold and self.border.holdColor) and self.border.holdColor) or ((self.hover and self.border.hoverColor) and self.border.hoverColor) or self.border.color))
     love.graphics.setLineWidth(self.border.size)
-    love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+    love.graphics.rectangle("line", tempX, tempY, self.width, self.height)
   end
   
   if self.icon and self.icon.source.type and self.icon.source.content then
     love.graphics.setColor(self:getAlphaColor(((self.hold and self.icon.holdColor) and self.icon.holdColor) or ((self.hover and self.icon.hoverColor) and self.icon.hoverColor) or self.icon.color))
     love.graphics.push()
     local offset = self.icon.offset or {x = 0, y = 0}
-    love.graphics.translate((self.x+self.width*.5+offset.x), (self.y+self.height*.5+offset.y))
+    love.graphics.translate((tempX+(self.center and self.width*.5 or 0)+offset.x), (tempY+(self.center and self.height*.5 or 0)+offset.y))
     if self.icon.source.type == "polygon" then
       for i = 1, #self.icon.source.content do
         love.graphics.polygon("fill", self.icon.source.content[i])
@@ -192,7 +213,7 @@ function uare:drawSelf()
     love.graphics.setColor(self:getAlphaColor(((self.hold and self.text.holdColor) and self.text.holdColor) or ((self.hover and self.text.hoverColor) and self.text.hoverColor) or self.text.color))
     love.graphics.setFont(self.text.font)
     local offset = self.text.offset or {x = 0, y = 0}
-    love.graphics.printf(self.text.display, self.x+offset.x, self.y+self.height*.5+offset.y, self.width, self.text.align)
+    love.graphics.printf(self.text.display, self.x-(self.center and self.width*.5 or 0)+offset.x, self.y+(self.center and 0 or self.height*.5)+offset.y, self.width, self.text.align)
   end
   
 end
@@ -310,6 +331,30 @@ function uare:hide(l) return self:setVisible(false, l) end
   
 function uare:getVisible() if self.visible ~= nil then return self.visible end end
   
+--Drag
+
+function uare:setDragBounds(bounds)
+  self.drag.bounds = bounds
+end
+
+function uare:setHorizontalRange(n)
+  self.x = self.drag.bounds[1].x + (self.drag.bounds[2].x-self.drag.bounds[1].x)*n
+end
+
+function uare:setVerticalRange(n)
+  self.y = self.drag.bounds[1].y + (self.drag.bounds[2].y-self.drag.bounds[1].y)*n
+end
+
+function uare:getHorizontalRange()
+  assert(self.drag.bounds and self.drag.bounds[1] and self.drag.bounds[2] and self.drag.bounds[1].x and self.drag.bounds[2].x, "Element must have 2 horizontal boundaries")
+  return (self.x-self.drag.bounds[1].x) / (self.drag.bounds[2].x-self.drag.bounds[1].x)
+end
+
+function uare:getVerticalRange()
+  assert(self.drag.bounds and self.drag.bounds[1] and self.drag.bounds[2] and self.drag.bounds[1].y and self.drag.bounds[2].y, "Element must have 2 vertical boundaries")
+  return (self.y-self.drag.bounds[1].y) / (self.drag.bounds[2].y-self.drag.bounds[1].y)
+end
+
 --Z-Index  
 
 function uare:setIndex(index)
@@ -334,9 +379,7 @@ function uare:toFront()
   if self.z < uare.hz or self.type == "group" then return self:setIndex(uare.hz + 1) end
 end
 
-function uare:getIndex()
-  return self.z
-end
+function uare:getIndex() return self.z end
 
 function uare:getAlphaColor(col)
   return {col[1], col[2], col[3], col[4] and col[4]*self.vAlpha or self.vAlpha*255}

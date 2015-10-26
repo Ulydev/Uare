@@ -11,3 +11,5 @@ Uncomment one of these to show different examples
 
 require "examples.buttons"
 --require "examples.windows"
+--require "examples.sliders"
+--require "examples.joystick"
