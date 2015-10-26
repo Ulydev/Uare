@@ -123,8 +123,8 @@ myButton2 = uare.new({
   
 }):style(myStyle)
 ```
+
 Styles are created using uare.newStyle(attributes) and applied using uare.new(attributes):style(myStyle).
-<<<<<<< HEAD
 They can also be applied *after* creation, using button:style(myStyle).
 
 Icons
@@ -163,13 +163,12 @@ imageIcon = uare.newIcon({
   }
 })
 ```
-=======
->>>>>>> origin/master
 
 Attributes
 ----------------
 
 These are usable either in styles, or directly in new buttons. Button-specific attributes will not be overwritten by styles.
+
 ```lua
 myStyle = uare.newStyle({
   text = {
@@ -187,11 +186,8 @@ myButton = uare.new({
 --myButton will take the text.color attribute from myStyle, but will keep its own text.display ("Button")
 ```
 
-<<<<<<< HEAD
 General Attributes - *attribute (default value)*
-=======
-General Attributes
->>>>>>> origin/master
+
 ```lua
 x
 y
@@ -202,7 +198,6 @@ height
 color
 hoverColor
 holdColor
-<<<<<<< HEAD
 
 drag (false)
 
@@ -210,8 +205,6 @@ active(true)
 visible (true)
 
 draw(true)
-=======
->>>>>>> origin/master
 ```
 
 Border
@@ -228,18 +221,14 @@ border = {
 Text
 ```lua
 text = {
-<<<<<<< HEAD
   display --text to be shown
   font
   align
 
-=======
->>>>>>> origin/master
   color
   hoverColor
   holdColor
-  
-<<<<<<< HEAD
+
   offset = {
     x
     y
@@ -255,11 +244,10 @@ icon = {
   color
   hoverColor
   holdColor
-=======
+  
   display --text to be shown
   font
   align
->>>>>>> origin/master
   
   offset = {
     x
@@ -286,7 +274,6 @@ myStyle = uare.newStyle({
 })
 ```
 
-<<<<<<< HEAD
 Anchors
 ----------------
 
@@ -369,9 +356,6 @@ Just like regular elements, *Groups* support some **methods** as well:
   - group:toFront()
 
 Removing elements
-=======
-Miscellaneous
->>>>>>> origin/master
 ----------------
 
 ```lua
@@ -382,8 +366,5 @@ Removes a specific button from Uare.
 ```lua
 uare.clear()
 ```
-<<<<<<< HEAD
+
 Removes every button from Uare.
-=======
-Removes every button from Uare.
->>>>>>> origin/master
