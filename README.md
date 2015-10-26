@@ -7,6 +7,8 @@ A simple and customisable UI library for LÖVE
 
 ![image](http://zippy.gfycat.com/ScentedRipeEft.gif)
 
+![image](https://i.gyazo.com/4b20ca8de45fcab3f4db76050f24fa15.gif)
+
 Setup
 ----------------
 
@@ -326,7 +328,7 @@ You can also retrieve the visibility and activity of a specific button with butt
 ```lua
 myButton = uare.new({
   onClick = function()
-    myButton:setVisible(not myButton:getVisible, .2)
+    myButton:setVisible(not myButton:getVisible(), .2)
   end
 }):style(buttonStyle)
 ```
