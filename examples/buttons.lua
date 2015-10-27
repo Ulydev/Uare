@@ -148,3 +148,7 @@ function love.draw()
   uare.draw()
   
 end
+
+function love.textinput(t)
+  myButton1.text.display = myButton1.text.display .. t
+end

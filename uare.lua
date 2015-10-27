@@ -82,6 +82,11 @@ function uare.new(t, f)
   
   uareObj.visible, uareObj.vAlpha = f.visible or true, 1
   
+  if uareObj.content then
+    if not uareObj.content.scroll then uareObj.content.scroll = {x = 0, y = 0} end
+    uareObj.content.width, uareObj.content.height = uareObj.content.width or uareObj.width, uareObj.content.height or uareObj.height
+  end
+  
   uareObj.type, uareObj.z = t, uare.z
   
   uare.z = uare.z + 1 uare.hz = uare.z --index stuff
@@ -160,6 +165,9 @@ function uare:updateSelf(dt, mx, my, e)
         self.y = (self.drag.bounds[2].y and self.y > self.drag.bounds[2].y) and self.drag.bounds[2].y or self.y
       end
     end
+    if self.track then
+      self:anchor(self.track.ref)
+    end
   end
   
   return wb
@@ -185,20 +193,20 @@ function uare:drawSelf()
   local tempX, tempY = self.x, self.y
   if self.center then tempX, tempY = self.x-self.width*.5, self.y-self.height*.5 end
   
-  love.graphics.setColor(self:getAlphaColor(((self.hold and self.holdColor) and self.holdColor) or ((self.hover and self.hoverColor) and self.hoverColor) or self.color))
+  love.graphics.setColor(self:alphaColor(((self.hold and self.holdColor) and self.holdColor) or ((self.hover and self.hoverColor) and self.hoverColor) or self.color))
   love.graphics.rectangle("fill", tempX, tempY, self.width, self.height)
   
   if self.border and self.border.color and self.border.size then
-    love.graphics.setColor(self:getAlphaColor(((self.hold and self.border.holdColor) and self.border.holdColor) or ((self.hover and self.border.hoverColor) and self.border.hoverColor) or self.border.color))
+    love.graphics.setColor(self:alphaColor(((self.hold and self.border.holdColor) and self.border.holdColor) or ((self.hover and self.border.hoverColor) and self.border.hoverColor) or self.border.color))
     love.graphics.setLineWidth(self.border.size)
     love.graphics.rectangle("line", tempX, tempY, self.width, self.height)
   end
   
   if self.icon and self.icon.source.type and self.icon.source.content then
-    love.graphics.setColor(self:getAlphaColor(((self.hold and self.icon.holdColor) and self.icon.holdColor) or ((self.hover and self.icon.hoverColor) and self.icon.hoverColor) or self.icon.color))
+    love.graphics.setColor(self:alphaColor(((self.hold and self.icon.holdColor) and self.icon.holdColor) or ((self.hover and self.icon.hoverColor) and self.icon.hoverColor) or self.icon.color))
     love.graphics.push()
     local offset = self.icon.offset or {x = 0, y = 0}
-    love.graphics.translate((tempX+(self.center and self.width*.5 or 0)+offset.x), (tempY+(self.center and self.height*.5 or 0)+offset.y))
+    love.graphics.translate((tempX+(self.center and 0 or self.width*.5)+offset.x), (tempY+(self.center and 0 or self.height*.5)+offset.y))
     if self.icon.source.type == "polygon" then
       for i = 1, #self.icon.source.content do
         love.graphics.polygon("fill", self.icon.source.content[i])
@@ -210,12 +218,55 @@ function uare:drawSelf()
   end
   
   if self.text and self.text.display and self.text.color then
-    love.graphics.setColor(self:getAlphaColor(((self.hold and self.text.holdColor) and self.text.holdColor) or ((self.hover and self.text.hoverColor) and self.text.hoverColor) or self.text.color))
+    love.graphics.setColor(self:alphaColor(((self.hold and self.text.holdColor) and self.text.holdColor) or ((self.hover and self.text.hoverColor) and self.text.hoverColor) or self.text.color))
     love.graphics.setFont(self.text.font)
     local offset = self.text.offset or {x = 0, y = 0}
     love.graphics.printf(self.text.display, self.x-(self.center and self.width*.5 or 0)+offset.x, self.y+(self.center and 0 or self.height*.5)+offset.y, self.width, self.text.align)
   end
   
+  if self.content and self.drawContent then
+    self:renderContent()
+  end
+  
+end
+
+--
+-- Content
+--
+
+function uare:renderContent()
+  love.graphics.push()
+  local tx, ty = self.x, self.y
+  if self.center then tx, ty = self.x-self.width*.5, self.y-self.height*.5 end
+  love.graphics.translate(tx-self.content.scroll.x*(self.content.width-self.width), ty-self.content.scroll.y*(self.content.height-self.height))
+  if self.content and self.content.wrap then love.graphics.setScissor(tx, ty, self.width, self.height) end
+  self.drawContent(self, self.vAlpha*255)
+  if self.content and self.content.wrap then love.graphics.setScissor() end
+  love.graphics.pop()
+end
+
+function uare:setContent(f)
+  self.drawContent = f
+end
+
+function uare:setContentDimensions(w, h)
+  if self.content then
+    self.content.width, self.content.height = w, h
+  end
+end
+
+function uare:setScroll(f)
+  if self.content then 
+    f.x = (f.x < 0 and 0) or (f.x > 1 and 1) or f.x
+    f.y = (f.y < 0 and 0) or (f.y > 1 and 1) or f.y
+    self.content.scroll.x, self.content.scroll.y = f.x or self.content.scroll.x, f.y or self.content.scroll.y
+  end
+end
+
+function uare:getScroll()
+  if self.content then 
+    return { x = self.content.scroll.x, y = self.content.scroll.y }
+  end
 end
 
 --
@@ -381,7 +432,7 @@ end
 
 function uare:getIndex() return self.z end
 
-function uare:getAlphaColor(col)
+function uare:alphaColor(col)
   return {col[1], col[2], col[3], col[4] and col[4]*self.vAlpha or self.vAlpha*255}
 end
 

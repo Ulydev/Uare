@@ -152,8 +152,6 @@ function love.update(dt)
   
   bgR.text.display, bgG.text.display, bgB.text.display = r, g, b
   
-  sliderG:setHorizontalRange(sliderR:getHorizontalRange())
-  
   button.color = {r, g, b}
   
 end

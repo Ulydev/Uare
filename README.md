@@ -11,6 +11,8 @@ A simple and customisable UI library for LÖVE
 
 ![image](http://zippy.gfycat.com/MarriedColorlessBuzzard.gif)
 
+![image](http://zippy.gfycat.com/ThatNecessaryGreendarnerdragonfly.gif)
+
 Setup
 ----------------
 
@@ -280,6 +282,20 @@ drag = {
   }
 ```
 
+Content
+```lua
+content = {
+  wrap
+  
+  width
+  height
+  
+  scroll = {
+    x
+    y
+  }
+```
+
 Callbacks - Called on specific events
 ```lua
 onClick --button is clicked down
@@ -374,6 +390,49 @@ buttonfront:setIndex(buttonbehind:getIndex() + 1)
 buttonbehind:setIndex(1)
 buttonfront:setIndex(2)
 ```
+
+Content and scrolling
+----------------
+
+You can draw inside an element by setting its *content*, using element:setContent(). It only takes a function as a parameter, which will be given the *ref* and *alpha* attributes.
+
+Set the *wrap* attribute to true to turn wrapping on. This will prevent the function from drawing outside the element.
+
+```lua
+element = uare.new({
+  width = 100,
+  height = 200,
+  
+  content = {
+    wrap = true,
+    width = 100,
+    height = 400, --content is 2 times larger than the element itself
+    
+    scroll = { --no need for x scroll
+      y = 1 --let's start at the bottom of the content
+    }
+  }
+}):style(myStyle)
+
+element:setContent(function(ref, apha)
+  love.graphics.setColor(255, 255, 255, alpha) --alpha of the element (i.e. a window)
+  love.graphics.circle(20, 20, 50) --coordinates are relative to the element
+end)
+element
+```
+
+You can later set the scroll for a specific axis manually using element:setScroll({ x, y }) and retrieve scroll using element:getScroll()
+
+```lua
+function love.update(dt)
+  uare.update(dt, love.mouse.getX(), love.mouse.getY())
+  
+  local scrollY = element:getScroll().y
+  element:setScroll({ y = (scrollY+1)/2 }) --slowly lerp towards 1 (bottom)
+end
+```
+
+Lastly, it's possible to redefine content dimensions at runtime with element:setContentDimensions(width, height).
 
 Visibility and activity
 ----------------

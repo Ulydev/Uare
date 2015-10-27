@@ -7,7 +7,9 @@ function createWindow(x, y)
     width = 250,
     height = 30,
     
-    drag = true,
+    drag = {
+      enabled = true
+    },
     
     color = {160, 160, 160},
     hoverColor = {140, 140, 140},
