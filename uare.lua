@@ -115,7 +115,7 @@ function uare:updateSelf(dt, mx, my, e)
     self.vAlpha = lerp(self.vAlpha, alphaTarget, self.l or .2)
   end
   
-  local mlc = e ~= "s" and love.mouse.isDown("l") or false
+  local mlc = e ~= "s" and love.mouse.isDown(1) or false
   
   local rwb = withinBounds(mx, my, self.x, self.y, self.x+self.width, self.y+self.height)
   if self.center then
@@ -256,6 +256,8 @@ function uare:setContentDimensions(w, h)
 end
 
 function uare:setScroll(f)
+  f.x = f.x or 0
+  f.y = f.y or 0
   if self.content then 
     f.x = (f.x < 0 and 0) or (f.x > 1 and 1) or f.x
     f.y = (f.y < 0 and 0) or (f.y > 1 and 1) or f.y
@@ -276,7 +278,7 @@ end
 function uare.update(dt, x, y)
 
   if x and y then
-    local e, c = "n", love.mouse.isDown("l")
+    local e, c = "n", love.mouse.isDown(1)
     if uare.c and not c then
       uare.c = false e = "r" uare.holdt = nil
     elseif not uare.c and c then
