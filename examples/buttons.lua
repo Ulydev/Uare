@@ -85,8 +85,8 @@ function love.load()
     
     width = 180,
     
-    onClick = function() myButton3.y = myButton3.y+2 end,
-    onRelease = function() myButton3.y = myButton3.y-2 end
+    onClick = function() myButton3.y = WHEIGHT*.5-80+2 end,
+    onRelease = function() myButton3.y = WHEIGHT*.5-80-2 end
     
   }):style(myStyle)
 
