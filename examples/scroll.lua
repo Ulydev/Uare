@@ -11,9 +11,9 @@ function createWindow(x, y, w, h)
       enabled = true
     },
     
-    color = {160, 160, 160},
-    hoverColor = {140, 140, 140},
-    holdColor = {120, 120, 120},
+    color = {160/COLOR_SCALE, 160/COLOR_SCALE, 160/COLOR_SCALE},
+    hoverColor = {140/COLOR_SCALE, 140/COLOR_SCALE, 140/COLOR_SCALE},
+    holdColor = {120/COLOR_SCALE, 120/COLOR_SCALE, 120/COLOR_SCALE},
     
     text = {
       display = "sample text",
@@ -26,7 +26,7 @@ function createWindow(x, y, w, h)
         y = -16
       },
       
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     },
     
     onClick = function() group:toFront() end,
@@ -39,7 +39,7 @@ function createWindow(x, y, w, h)
     width = w,
     height = h,
     
-    color = {255, 255, 255},
+    color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     
     content = {
       wrap = true,
@@ -54,7 +54,7 @@ end
 
 function drawLargeStuff(ref, alpha)
 
-  love.graphics.setColor(255, 255, 255, alpha)
+  love.graphics.setColor(255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE, alpha/COLOR_SCALE)
   love.graphics.draw(image, 20, 60, 0, .4, .4)
   love.graphics.draw(image, 200, 60, 0, .4, .4) --cut
   
@@ -66,7 +66,7 @@ function love.load()
   
   borderStyle = uare.newStyle({
     border = {
-      color = {100, 100, 100},
+      color = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
       size = 2
     }  
   })
@@ -84,7 +84,7 @@ function love.load()
     
     active = false,
       
-    color = {120, 120, 120, 150},
+    color = {120/COLOR_SCALE, 120/COLOR_SCALE, 120/COLOR_SCALE, 150/COLOR_SCALE},
   }):anchor(window1.top):group(window1.group)
 
   window1.slider = uare.new({
@@ -94,9 +94,9 @@ function love.load()
     width = 20,
     height = 100,
     
-    color = {160, 160, 160},
-    hoverColor = {140, 140, 140},
-    holdColor = {120, 120, 120},
+    color = {160/COLOR_SCALE, 160/COLOR_SCALE, 160/COLOR_SCALE},
+    hoverColor = {140/COLOR_SCALE, 140/COLOR_SCALE, 140/COLOR_SCALE},
+    holdColor = {120/COLOR_SCALE, 120/COLOR_SCALE, 120/COLOR_SCALE},
     
     drag = {
       enabled = true,
@@ -126,7 +126,7 @@ function love.load()
     
     active = false,
       
-    color = {120, 120, 120, 150},
+    color = {120/COLOR_SCALE, 120/COLOR_SCALE, 120/COLOR_SCALE, 150/COLOR_SCALE},
   }):anchor(window2.top):group(window2.group)
 
   window2.slider = uare.new({
@@ -136,9 +136,9 @@ function love.load()
     width = 100,
     height = 20,
     
-    color = {160, 160, 160},
-    hoverColor = {140, 140, 140},
-    holdColor = {120, 120, 120},
+    color = {160/COLOR_SCALE, 160/COLOR_SCALE, 160/COLOR_SCALE},
+    hoverColor = {140/COLOR_SCALE, 140/COLOR_SCALE, 140/COLOR_SCALE},
+    holdColor = {120/COLOR_SCALE, 120/COLOR_SCALE, 120/COLOR_SCALE},
     
     drag = {
       enabled = true,

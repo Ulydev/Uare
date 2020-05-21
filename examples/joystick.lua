@@ -12,20 +12,20 @@ function love.load()
     
     --color
     
-    color = {200, 200, 200},
+    color = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
     
-    hoverColor = {150, 150, 150},
+    hoverColor = {150/COLOR_SCALE, 150/COLOR_SCALE, 150/COLOR_SCALE},
     
-    holdColor = {100, 100, 100},
+    holdColor = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
     
     --border
     
     border = {
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     
-      hoverColor = {200, 200, 200},
+      hoverColor = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
       
-      holdColor = {150, 150, 150},
+      holdColor = {150/COLOR_SCALE, 150/COLOR_SCALE, 150/COLOR_SCALE},
       
       size = 5
     },
@@ -53,13 +53,13 @@ function love.load()
     width = 100,
     height = 40,
     
-    color = {100, 100, 100},
+    color = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
     
     center = true,
     
     text = {
       font = love.graphics.newFont(24),
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
       align = "center",
       offset = {
         x = 0,
@@ -76,9 +76,9 @@ function love.load()
     height = 50,
     width = 30,
     
-    color = {255, 255, 255},
+    color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     
-    hoverColor = {200, 200, 200},
+    hoverColor = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
     
     center = true, --makes positioning easier!
       
@@ -145,12 +145,12 @@ end
 
 function love.draw()
 
-  love.graphics.setColor(100, 100, 100)
+  love.graphics.setColor(100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE)
   love.graphics.circle("fill", WWIDTH*.5, WHEIGHT*.8, 50)
   
   uare.draw()
   
-  love.graphics.setColor(255, 255, 255)
+  love.graphics.setColor(255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE)
   love.graphics.circle("fill", player.x, player.y, 20)
   
 end

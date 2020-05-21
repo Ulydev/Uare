@@ -13,20 +13,20 @@ function love.load()
     
     --color
     
-    color = {200, 200, 200},
+    color = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
     
-    hoverColor = {150, 150, 150},
+    hoverColor = {150/COLOR_SCALE, 150/COLOR_SCALE, 150/COLOR_SCALE},
     
-    holdColor = {100, 100, 100},
+    holdColor = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
     
     --border
     
     border = {
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     
-      hoverColor = {200, 200, 200},
+      hoverColor = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
       
-      holdColor = {150, 150, 150},
+      holdColor = {150/COLOR_SCALE, 150/COLOR_SCALE, 150/COLOR_SCALE},
       
       size = 5
     },
@@ -34,11 +34,11 @@ function love.load()
     --text
     
     text = {
-      color = {200, 0, 0},
+      color = {200/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
       
-      hoverColor = {150, 0, 0},
+      hoverColor = {150/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
       
-      holdColor = {255, 255, 255},
+      holdColor = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
       
       font = font,
       
@@ -74,8 +74,8 @@ function love.load()
     
     icon = {
       source = dropdownIcon,
-      color = {100, 100, 100},
-      hoverColor = {255, 255, 255},
+      color = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
+      hoverColor = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
       offset = {
         x = 170,
         y = 6
@@ -97,7 +97,7 @@ function love.load()
   dropdownGroup = uare.newGroup()
   
   dropbg = uare.new({
-    color = {100, 100, 100},
+    color = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
     
     x = WWIDTH*.5-201,
     y = WHEIGHT*.5-140,

@@ -11,9 +11,9 @@ function createWindow(x, y)
       enabled = true
     },
     
-    color = {160, 160, 160},
-    hoverColor = {140, 140, 140},
-    holdColor = {120, 120, 120},
+    color = {160/COLOR_SCALE, 160/COLOR_SCALE, 160/COLOR_SCALE},
+    hoverColor = {140/COLOR_SCALE, 140/COLOR_SCALE, 140/COLOR_SCALE},
+    holdColor = {120/COLOR_SCALE, 120/COLOR_SCALE, 120/COLOR_SCALE},
     
     text = {
       display = "sample text",
@@ -26,7 +26,7 @@ function createWindow(x, y)
         y = -16
       },
       
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     },
     
     onClick = function() group:toFront() end,
@@ -39,7 +39,7 @@ function createWindow(x, y)
     width = 250,
     height = 300,
     
-    color = {255, 255, 255},
+    color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     
     content = {
       wrap = true,
@@ -79,7 +79,7 @@ function love.load()
   
   borderStyle = uare.newStyle({
     border = {
-      color = {100, 100, 100},
+      color = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
       size = 2
     }  
   })
