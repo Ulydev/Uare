@@ -11,8 +11,8 @@ function createWindow(x, y)
       enabled = true
     },
     
-    color = {160, 160, 160},
-    hoverColor = {140, 140, 140},
+    color = {160/COLOR_SCALE, 160/COLOR_SCALE, 160/COLOR_SCALE},
+    hoverColor = {140/COLOR_SCALE, 140/COLOR_SCALE, 140/COLOR_SCALE},
     
     text = {
       display = "sample text",
@@ -37,18 +37,18 @@ function createWindow(x, y)
     width = 50,
     height = 30,
     
-    color = {200, 200, 200},
-    hoverColor = {200, 180, 180},
-    holdColor = {200, 160, 160},
+    color = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
+    hoverColor = {200/COLOR_SCALE, 180/COLOR_SCALE, 180/COLOR_SCALE},
+    holdColor = {200/COLOR_SCALE, 160/COLOR_SCALE, 160/COLOR_SCALE},
     
     icon = {
       source = closeIcon,
       
-      color = {220, 0, 0},
+      color = {220/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
 
-      hoverColor = {250, 0, 0},
+      hoverColor = {250/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
 
-      holdColor = {150, 0, 0},
+      holdColor = {150/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
 
     },
   
@@ -63,7 +63,7 @@ function createWindow(x, y)
     width = 250,
     height = 300,
     
-    color = {255, 255, 255},
+    color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
 
   }):anchor(top):group(group):style(borderStyle)
 
@@ -94,7 +94,7 @@ function love.load()
   
   borderStyle = uare.newStyle({
     border = {
-      color = {100, 100, 100},
+      color = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
       size = 2
     }  
   })
@@ -110,19 +110,19 @@ function love.load()
     y = WHEIGHT-80,
     width = 400,
     height = 60,
-    color = {0, 0, 0},
-    hoverColor = {100, 100, 100},
-    holdColor = {100, 0, 0},
+    color = {0/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
+    hoverColor = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
+    holdColor = {100/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
     
     border = {
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
       size = 5
     },
     
     text = {
       display = "open all windows",
       font = love.graphics.newFont(32),
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
       align = "center",
       offset = {
         x = 0,
@@ -148,3 +148,4 @@ function love.draw()
   uare.draw()
   
 end
+

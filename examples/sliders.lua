@@ -9,20 +9,20 @@ function love.load()
     
     --color
     
-    color = {200, 200, 200},
+    color = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
     
-    hoverColor = {150, 150, 150},
+    hoverColor = {150/COLOR_SCALE, 150/COLOR_SCALE, 150/COLOR_SCALE},
     
-    holdColor = {100, 100, 100},
+    holdColor = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
     
     --border
     
     border = {
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
     
-      hoverColor = {200, 200, 200},
+      hoverColor = {200/COLOR_SCALE, 200/COLOR_SCALE, 200/COLOR_SCALE},
       
-      holdColor = {150, 150, 150},
+      holdColor = {150/COLOR_SCALE, 150/COLOR_SCALE, 150/COLOR_SCALE},
       
       size = 5
     },
@@ -30,11 +30,11 @@ function love.load()
     --text
     
     text = {
-      color = {200, 0, 0},
+      color = {200/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
       
-      hoverColor = {150, 0, 0},
+      hoverColor = {150/COLOR_SCALE, 0/COLOR_SCALE, 0/COLOR_SCALE},
       
-      holdColor = {255, 255, 255},
+      holdColor = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
       
       font = love.graphics.newFont(48),
       
@@ -77,11 +77,11 @@ function love.load()
     width = 200,
     height = 40,
     
-    color = {100, 100, 100},
+    color = {100/COLOR_SCALE, 100/COLOR_SCALE, 100/COLOR_SCALE},
     
     text = {
       font = love.graphics.newFont(24),
-      color = {255, 255, 255},
+      color = {255/COLOR_SCALE, 255/COLOR_SCALE, 255/COLOR_SCALE},
       align = "center",
       offset = {
         x = 200,
@@ -127,7 +127,7 @@ function love.load()
     width = 300,
     height = 200,
     
-    color = {128, 128, 128},
+    color = {128/COLOR_SCALE, 128/COLOR_SCALE, 128/COLOR_SCALE},
     
     text = {
       display = "Reset"
@@ -146,9 +146,9 @@ function love.update(dt)
   
   uare.update(dt, love.mouse.getX(), love.mouse.getY())
   
-  local r = sliderR:getHorizontalRange()*255 --value returned is between 0 and 1
-  local g = sliderG:getHorizontalRange()*255
-  local b = sliderB:getHorizontalRange()*255
+  local r = sliderR:getHorizontalRange()*255/COLOR_SCALE --value returned is between 0 and 1
+  local g = sliderG:getHorizontalRange()*255/COLOR_SCALE
+  local b = sliderB:getHorizontalRange()*255/COLOR_SCALE
   
   bgR.text.display, bgG.text.display, bgB.text.display = r, g, b
   
